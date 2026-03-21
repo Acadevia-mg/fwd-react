@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <h1>Görev Listesi</h1>
+
+    <input id="taskInput" placeholder="Görev yaz..." />
+    <button onclick="addTask()">Ekle</button>
+    <button onclick="removeLast()">Sonu Sil</button>
+    <button onclick="removeFirst()">İlki Sil</button>
+
+    <ul id="taskList"></ul>
+
+    <script src="app.js"></script>
+  </body>
+</html>
+
+<script>
+  // VARIABLES
+  let tasks = []; // reference type
+  var counter = 0; // var example
+  const maxTask = 10; // primitive
+
+  // FUNCTION DECLARATION
+  function renderTasks() {
+    const list = document.getElementById("taskList");
+    list.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+      // TEMPLATE LITERAL
+      list.innerHTML += `<li>${index + 1} - ${task}</li>`;
+    });
+  }
+
+  // FUNCTION EXPRESSION
+  const addTask = function (taskText = "Boş görev") {
+    const input = document.getElementById("taskInput");
+
+    // TERNARY + TRUTHY/FALSY
+    let text = input.value ? input.value : taskText;
+
+    // IF ELSE
+    if (tasks.length >= maxTask) {
+      alert("Maksimum görev sayısına ulaşıldı");
+      return;
+    }
+
+    // ARRAY PUSH
+    tasks.push(text);
+
+    counter++;
+
+    input.value = "";
+
+    renderTasks();
+  };
+
+  // ARROW FUNCTION
+  const removeLast = () => {
+    if (tasks.length === 0) {
+      alert("Liste boş");
+      return;
+    }
+
+    // POP
+    tasks.pop();
+
+    renderTasks();
+  };
+
+  const removeFirst = () => {
+    // SHIFT
+    tasks.shift();
+
+    renderTasks();
+  };
+
+  // DEFAULT + REST PARAMETERS
+  function addMultipleTasks(...newTasks) {
+    // SPREAD OPERATOR
+    tasks = [...tasks, ...newTasks];
+
+    renderTasks();
+  }
+
+  // ARRAY DESTRUCTURING
+  function showFirstTwo() {
+    const [first, second] = tasks;
+
+    console.log("İlk görev:", first);
+    console.log("İkinci görev:", second);
+  }
+
+  // SWITCH EXAMPLE
+  function checkTaskCount() {
+    switch (true) {
+      case tasks.length === 0:
+        console.log("Hiç görev yok");
+        break;
+
+      case tasks.length < 5:
+        console.log("Az görev var");
+        break;
+
+      default:
+        console.log("Çok görev var");
+    }
+  }
+
+  // UNSHIFT EXAMPLE
+  function addImportantTask(task) {
+    tasks.unshift(task);
+
+    renderTasks();
+  }
+</script>
+
+<style>
+  body {
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 40px;
+    text-align: center;
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  input {
+    padding: 10px;
+    width: 250px;
+  }
+
+  button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    background: white;
+    margin: 10px auto;
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+  }
+</style>

@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMG Cafe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f7efe6;
+        --panel: #fffcf8;
+        --text: #1f2b2e;
+        --line: #dfd6c9;
+        --brand: #5c3923;
+        --brand-2: #402901;
+        --dark: #24343b;
+        --muted: #66797f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Outfit", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 8% 15%,
+            rgba(194, 81, 42, 0.2),
+            transparent 35%
+          ),
+          radial-gradient(
+            circle at 84% 82%,
+            rgba(26, 138, 109, 0.16),
+            transparent 35%
+          ),
+          var(--bg);
+      }
+
+      .app {
+        width: min(1150px, 92vw);
+        margin: 20px auto 30px;
+      }
+
+      .topbar {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .brand img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .nav {
+        display: flex;
+        gap: 12px;
+        color: var(--muted);
+      }
+
+      .hero {
+        border-radius: 20px;
+        background: linear-gradient(120deg, #201203, #53291c 55%, #69512f);
+        color: #ecf5f5;
+        padding: clamp(20px, 5vw, 42px);
+        box-shadow: 0 14px 36px rgba(18, 30, 35, 0.3);
+      }
+
+      .hero h1 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 3.1rem);
+      }
+
+      .hero p {
+        max-width: 66ch;
+        color: #cfe2e5;
+        margin-top: 10px;
+      }
+
+      .layout {
+        margin-top: 14px;
+        display: grid;
+        gap: 12px;
+        grid-template-columns: 1fr 360px;
+      }
+
+      .catalog,
+      .cart {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+      }
+
+      .catalog {
+        padding: 16px;
+      }
+
+      .catalog-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .catalog h2,
+      .cart h2 {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .filter-btn {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 12px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+      }
+
+      .filter-btn.active {
+        border-color: transparent;
+        background: var(--brand);
+        color: #fff;
+      }
+
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        gap: 10px;
+      }
+
+      .product-card {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 10px;
+        background: #fff;
+      }
+
+      .product-card h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .product-meta {
+        margin: 6px 0 8px;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .product-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .price {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+      }
+
+      .add-btn {
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        cursor: pointer;
+        background: var(--brand-2);
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .cart {
+        padding: 16px;
+      }
+
+      .cart-box {
+        border: 1px dashed var(--line);
+        border-radius: 12px;
+        padding: 10px;
+        min-height: 180px;
+        background: #fffaf4;
+      }
+
+      .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 8px;
+        background: #fff;
+        margin-bottom: 8px;
+      }
+
+      .total-line {
+        margin-top: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 0.92rem;
+      }
+
+      .coupon {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .coupon input {
+        flex: 1;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 8px;
+        font: inherit;
+      }
+
+      .coupon button,
+      .actions button {
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 10px;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+      }
+
+      .coupon button {
+        background: var(--dark);
+        color: #fff;
+      }
+
+      .actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+      }
+
+      #firstRemove {
+        background: #5f4c28;
+        color: #fff;
+      }
+
+      #lastRemove {
+        background: 5f4c28;
+        color: #fff;
+      }
+
+      #checkout {
+        width: 100%;
+        margin-top: 10px;
+        border: 0;
+        border-radius: 12px;
+        padding: 10px;
+        font: inherit;
+        font-weight: 800;
+        cursor: pointer;
+        background: var(--brand);
+        color: #fff;
+      }
+
+      .payment-panel {
+        margin-top: 12px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fff;
+        display: none;
+      }
+
+      .payment-panel.open {
+        display: block;
+      }
+
+      .payment-panel h3 {
+        margin: 0 0 10px;
+        font-size: 1rem;
+      }
+
+      .payment-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .payment-grid .full {
+        grid-column: 1 / -1;
+      }
+
+      .payment-panel input,
+      .payment-panel select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 9px 10px;
+        font: inherit;
+        background: #fffdfb;
+      }
+
+      .payment-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+      }
+
+      .payment-actions button {
+        flex: 1;
+        border: 0;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+      }
+
+      #confirmPayment {
+        background: var(--brand-2);
+        color: #fff;
+      }
+
+      #cancelPayment {
+        background: #e9e2d8;
+        color: var(--text);
+      }
+
+      .payment-result {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background: #eef8f3;
+        color: #185a47;
+        display: none;
+      }
+
+      .payment-result.show {
+        display: block;
+      }
+
+      .notice {
+        margin-top: 10px;
+        font-size: 0.93rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 920px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <img src="./logo-small-black.png" alt="DMG Cafe logosu" />
+          <span>DMG CAFE</span>
+        </div>
+        <nav class="nav">
+          <span>Menü</span>
+          <span>Özel Lezzetler</span>
+          <span>Sepet</span>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <h1>DMG Cafe'nin özel lezzetlerini keşfet</h1>
+      </section>
+
+      <main class="layout">
+        <section class="catalog">
+          <div class="catalog-head">
+            <h2>Menü</h2>
+            <div class="filters">
+              <button class="filter-btn active" data-filter="all">
+                Tüm ürünler
+              </button>
+              <button class="filter-btn" data-filter="coffee">Kahve</button>
+              <button class="filter-btn" data-filter="dessert">Tatlı</button>
+              <button class="filter-btn" data-filter="cold">Soğuk</button>
+            </div>
+          </div>
+
+          <div class="product-grid" id="productGrid"></div>
+        </section>
+
+        <aside class="cart">
+          <h2>Sepet</h2>
+          <div class="cart-box" id="cartBox"></div>
+          <div class="total-line" id="totalLine">Toplam: 0.00 TL</div>
+
+          <div class="coupon">
+            <input
+              id="couponInput"
+              type="text"
+              placeholder="Kupon kodu (SAVE10, WELCOME5)"
+            />
+            <button id="applyCoupon" type="button">Uygula</button>
+          </div>
+
+          <div class="actions">
+            <button id="firstRemove" type="button">İlk ürünü sil</button>
+            <button id="lastRemove" type="button">Son ürünü sil</button>
+          </div>
+
+          <button id="checkout" type="button">Ödeme Yap</button>
+          <section class="payment-panel" id="paymentPanel">
+            <h3>Ödeme Bilgileri</h3>
+            <div class="payment-grid">
+              <input
+                id="cardName"
+                class="full"
+                type="text"
+                placeholder="Kart üzerindeki isim"
+              />
+              <input
+                id="cardNumber"
+                class="full"
+                type="text"
+                maxlength="19"
+                placeholder="Kart numarası"
+              />
+              <input
+                id="cardMonth"
+                type="text"
+                maxlength="2"
+                placeholder="AA"
+              />
+              <input id="cardYear" type="text" maxlength="2" placeholder="YY" />
+              <input
+                id="cardCvv"
+                class="full"
+                type="text"
+                maxlength="3"
+                placeholder="CVV"
+              />
+            </div>
+            <div class="payment-actions">
+              <button id="confirmPayment" type="button">Ödemeyi Onayla</button>
+              <button id="cancelPayment" type="button">Vazgeç</button>
+            </div>
+            <div class="payment-result" id="paymentResult"></div>
+          </section>
+          <div class="notice" id="notice">Sepetin hazır.</div>
+        </aside>
+      </main>
+    </div>
+
+    <script>
+      var currency = "TL";
+      let activeFilter = "all";
+      const taxRate = 0.08;
+
+      const products = [
+        { id: 1, name: "Flat White", category: "coffee", price: 110 },
+        { id: 2, name: "Mocha", category: "coffee", price: 125 },
+        { id: 3, name: "Cold Brew", category: "cold", price: 95 },
+        { id: 4, name: "Limonlu Cheesecake", category: "dessert", price: 140 },
+        { id: 5, name: "Iced Latte", category: "cold", price: 105 },
+        { id: 6, name: "Cookie", category: "dessert", price: 70 },
+      ];
+
+      const state = {
+        cart: [],
+        coupon: null,
+        queue: [],
+      };
+
+      const productGrid = document.getElementById("productGrid");
+      const cartBox = document.getElementById("cartBox");
+      const totalLine = document.getElementById("totalLine");
+      const notice = document.getElementById("notice");
+      const couponInput = document.getElementById("couponInput");
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const applyCouponBtn = document.getElementById("applyCoupon");
+      const firstRemoveBtn = document.getElementById("firstRemove");
+      const lastRemoveBtn = document.getElementById("lastRemove");
+      const checkoutBtn = document.getElementById("checkout");
+      const paymentPanel = document.getElementById("paymentPanel");
+      const paymentResult = document.getElementById("paymentResult");
+      const cardNameInput = document.getElementById("cardName");
+      const cardNumberInput = document.getElementById("cardNumber");
+      const cardMonthInput = document.getElementById("cardMonth");
+      const cardYearInput = document.getElementById("cardYear");
+      const cardCvvInput = document.getElementById("cardCvv");
+      const confirmPaymentBtn = document.getElementById("confirmPayment");
+      const cancelPaymentBtn = document.getElementById("cancelPayment");
+
+      function resetPaymentPanel() {
+        paymentPanel.classList.remove("open");
+        paymentResult.classList.remove("show");
+        paymentResult.textContent = "";
+        cardNameInput.value = "";
+        cardNumberInput.value = "";
+        cardMonthInput.value = "";
+        cardYearInput.value = "";
+        cardCvvInput.value = "";
+      }
+
+      function formatPrice(amount = 0, ...extras) {
+        const finalAmount = extras.reduce(function (sum, val) {
+          return sum + val;
+        }, amount);
+        return `${finalAmount.toFixed(2)} ${currency}`;
+      }
+
+      const getBadge = (category) => {
+        switch (category) {
+          case "coffee":
+            return "Sıcak";
+          case "cold":
+            return "Serin";
+          case "dessert":
+            return "Tatlı";
+          default:
+            return "Menü";
+        }
+      };
+
+      const calculateSubtotal = function (items) {
+        return items.reduce(function (sum, item) {
+          return sum + item.price;
+        }, 0);
+      };
+
+      function renderProducts() {
+        const visible =
+          activeFilter === "all"
+            ? products
+            : products.filter(function (product) {
+                return product.category === activeFilter;
+              });
+
+        productGrid.innerHTML = visible
+          .map(function (product) {
+            const { id, name, category, price } = product;
+            return `
+              <article class="product-card">
+                <h3>${name}</h3>
+                <div class="product-meta">${getBadge(category)} • ${category}</div>
+                <div class="product-actions">
+                  <div class="price">${formatPrice(price)}</div>
+                  <button class="add-btn" data-add="${id}">Sepete Ekle</button>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+
+        document.querySelectorAll("[data-add]").forEach(function (button) {
+          button.addEventListener("click", function () {
+            const productId = Number(button.dataset.add);
+            addToCart(productId);
+          });
+        });
+      }
+
+      function renderCart() {
+        if (!state.cart.length) {
+          cartBox.innerHTML = "Sepetin boş. Ürün ekleyerek başla.";
+          totalLine.textContent = "Toplam: 0.00 TL";
+          return;
+        }
+
+        cartBox.innerHTML = state.cart
+          .map(function (item, index) {
+            return `
+              <div class="cart-item">
+                <span>${index + 1}. ${item.name}</span>
+                <strong>${formatPrice(item.price)}</strong>
+              </div>
+            `;
+          })
+          .join("");
+
+        const subtotal = calculateSubtotal(state.cart);
+        const tax = subtotal * taxRate;
+        const discount = state.coupon ? subtotal * state.coupon.rate : 0;
+        const total = subtotal + tax - discount;
+
+        totalLine.textContent = `Ara Toplam: ${formatPrice(subtotal)} | KDV: ${formatPrice(tax)} | İndirim: ${formatPrice(discount)} | Toplam: ${formatPrice(total)}`;
+      }
+
+      function addToCart(productId) {
+        const product = products.find(function (item) {
+          return item.id === productId;
+        });
+
+        if (!product) {
+          notice.textContent = "Ürün bulunamadı.";
+          return;
+        }
+
+        const primitivePrice = product.price;
+        const copiedPrice = primitivePrice;
+        const copiedObject = { ...product, price: copiedPrice };
+
+        state.cart = [...state.cart, copiedObject];
+        state.queue.push(`${product.name} eklendi`);
+        if (state.queue.length > 4) {
+          state.queue.shift();
+        }
+
+        notice.textContent = state.queue.join(" | ");
+        renderCart();
+      }
+
+      function applyCoupon() {
+        const code = couponInput.value.trim().toUpperCase();
+
+        if (!code) {
+          state.coupon = null;
+          notice.textContent = "Kupon girilmedi. İndirim sıfırlandı.";
+          renderCart();
+          return;
+        }
+
+        const coupons = {
+          SAVE10: 0.1,
+          WELCOME5: 0.05,
+        };
+
+        if (coupons[code]) {
+          state.coupon = { code: code, rate: coupons[code] };
+          notice.textContent = `${code} uygulandı: %${state.coupon.rate * 100} indirim.`;
+        } else {
+          state.coupon = null;
+          notice.textContent = "Geçersiz kupon kodu.";
+        }
+
+        renderCart();
+      }
+
+      function removeFirst() {
+        if (!state.cart.length) {
+          notice.textContent = "Sepette silinecek ürün yok.";
+          return;
+        }
+        const removed = state.cart.shift();
+        notice.textContent = `İlk ürün silindi: ${removed.name}`;
+        state.cart = [...state.cart];
+        renderCart();
+      }
+
+      function removeLast() {
+        if (!state.cart.length) {
+          notice.textContent = "Sepette silinecek ürün yok.";
+          return;
+        }
+        const removed = state.cart.pop();
+        notice.textContent = `Son ürün silindi: ${removed.name}`;
+        state.cart = [...state.cart];
+        renderCart();
+      }
+
+      function checkout() {
+        const count = state.cart.length;
+        const level =
+          count >= 4
+            ? "Büyük sipariş"
+            : count > 0
+              ? "Standart sipariş"
+              : "Sipariş yok";
+
+        if (!count) {
+          notice.textContent = "Ödeme için önce ürün seç.";
+          return;
+        }
+
+        paymentPanel.classList.add("open");
+        paymentResult.classList.remove("show");
+        paymentResult.textContent = "";
+        notice.textContent = `${level} için kart bilgilerini gir ve ödemeyi onayla.`;
+      }
+
+      function validatePayment(
+        name = "",
+        number = "",
+        month = "",
+        year = "",
+        cvv = "",
+      ) {
+        const cleanNumber = number.replaceAll(" ", "");
+        const monthNumber = Number(month);
+        const yearNumber = Number(year);
+
+        if (
+          !name ||
+          cleanNumber.length !== 16 ||
+          Number.isNaN(Number(cleanNumber))
+        ) {
+          return "Geçerli kart sahibi ve 16 haneli kart numarası gir.";
+        }
+
+        if (
+          monthNumber < 1 ||
+          monthNumber > 12 ||
+          year.length !== 2 ||
+          Number.isNaN(yearNumber)
+        ) {
+          return "Son kullanma tarihini AA/YY formatında gir.";
+        }
+
+        if (cvv.length !== 3 || Number.isNaN(Number(cvv))) {
+          return "CVV 3 haneli olmalı.";
+        }
+
+        return "";
+      }
+
+      function confirmPayment() {
+        const errorMessage = validatePayment(
+          cardNameInput.value.trim(),
+          cardNumberInput.value.trim(),
+          cardMonthInput.value.trim(),
+          cardYearInput.value.trim(),
+          cardCvvInput.value.trim(),
+        );
+
+        if (errorMessage) {
+          paymentResult.classList.add("show");
+          paymentResult.style.background = "#fff0ee";
+          paymentResult.style.color = "#a33d24";
+          paymentResult.textContent = errorMessage;
+          return;
+        }
+
+        const subtotal = calculateSubtotal(state.cart);
+        const tax = subtotal * taxRate;
+        const discount = state.coupon ? subtotal * state.coupon.rate : 0;
+        const total = subtotal + tax - discount;
+        const lastFour = cardNumberInput.value
+          .trim()
+          .replaceAll(" ", "")
+          .slice(-4);
+
+        paymentResult.classList.add("show");
+        paymentResult.style.background = "#eef8f3";
+        paymentResult.style.color = "#185a47";
+        paymentResult.textContent = `Kart **** ${lastFour} ile ${formatPrice(total)} ödeme alındı.`;
+        notice.textContent = `${state.cart.length} ürün için ödeme tamamlandı.`;
+        state.queue.unshift("Ödeme tamamlandı");
+        state.queue = state.queue.slice(0, 4);
+
+        setTimeout(function () {
+          state.cart = [];
+          state.coupon = null;
+          couponInput.value = "";
+          renderCart();
+          resetPaymentPanel();
+        }, 1400);
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          filterButtons.forEach(function (btn) {
+            btn.classList.remove("active");
+          });
+          button.classList.add("active");
+          activeFilter = button.dataset.filter;
+          renderProducts();
+        });
+      });
+
+      applyCouponBtn.addEventListener("click", applyCoupon);
+      firstRemoveBtn.addEventListener("click", removeFirst);
+      lastRemoveBtn.addEventListener("click", removeLast);
+      checkoutBtn.addEventListener("click", checkout);
+      confirmPaymentBtn.addEventListener("click", confirmPayment);
+      cancelPaymentBtn.addEventListener("click", function () {
+        resetPaymentPanel();
+        notice.textContent = "Ödeme paneli kapatıldı.";
+      });
+
+      renderProducts();
+      renderCart();
+    </script>
+  </body>
+</html>

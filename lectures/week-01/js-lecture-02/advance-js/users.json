@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Ahmet Yılmaz",
+    "age": 28,
+    "email": "ahmet@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "name": "Ayşe Demir",
+    "age": 34,
+    "email": "ayse@mail.com",
+    "isActive": false
+  },
+  {
+    "id": 3,
+    "name": "Mehmet Kaya",
+    "age": 22,
+    "email": "mehmet@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "name": "Zeynep Çelik",
+    "age": 30,
+    "email": "zeynep@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 5,
+    "name": "Emre Aydın",
+    "age": 27,
+    "email": "emre@mail.com",
+    "isActive": false
+  },
+  {
+    "id": 6,
+    "name": "Elif Şahin",
+    "age": 25,
+    "email": "elif@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 7,
+    "name": "Can Koç",
+    "age": 31,
+    "email": "can@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 8,
+    "name": "Burak Öz",
+    "age": 29,
+    "email": "burak@mail.com",
+    "isActive": false
+  },
+  {
+    "id": 9,
+    "name": "Derya Tunç",
+    "age": 26,
+    "email": "derya@mail.com",
+    "isActive": true
+  },
+  {
+    "id": 10,
+    "name": "Selin Arslan",
+    "age": 33,
+    "email": "selin@mail.com",
+    "isActive": false
+  }
+]
