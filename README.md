@@ -92,22 +92,18 @@ Programı başarıyla tamamlayan katılımcılar, **resmî sertifika** almaya ha
 ## 📁 Repo Yapısı
 
 ```
-week-01/   Foundations & Introduction (HTML/CSS, JS)
-week-02/   Advanced JavaScript & Browser Extension
-week-03/   TypeScript
-week-04/   React Fundamentals & Expense Tracker
-week-05/   React Advanced & Food Order App
-week-06/   React Routing + Next.js Intro & Blog Platform
-week-07/   Next.js Advanced & Task Manager
-week-08/   Next.js Auth, DB & Deployment
-
-projects/
-  01-browser-extension/
-  02-expense-tracker/
-  03-food-order-app/
-  04-blog-platform/
-  05-task-manager/
+lectures/
+├── TEMPLATE.md         Yeni hafta eklerken kullanılacak README şablonu
+├── week-01/            HTML/CSS, JS Fundamentals, Advanced JS
+├── week-02/            İnternet Nasıl Çalışır, Advanced JS, UX Foundations
+├── week-03/            TypeScript (Giriş + İleri Seviye)
+├── week-04/            React Fundamentals (1., 2., 3. gün)
+└── week-05/            Context API, State Management, Food Order App
+    ├── slides/             Sunum dosyaları (.key)
+    └── project/
+        └── food-order-app/  Haftanın projesi
 ```
 
-Her hafta klasöründe `lectures/`, `project/` (varsa) ve `resources/` alt klasörleri bulunur.
-`projects/` klasörü tüm projeleri sıralı olarak içerir.
+Her hafta klasörü kendi `README.md` dosyasını içerir ve o haftanın içeriklerini, eğitmenlerini, örnek projelerini özetler. Yeni hafta eklerken `lectures/TEMPLATE.md` dosyasını başlangıç olarak kullanabilirsin.
+
+Haftalık projeler, ilgili haftanın `project/` alt klasöründe bulunur. Kurs ilerledikçe `week-06`, `week-07` ve `week-08` klasörleri içerikle birlikte eklenecektir.
